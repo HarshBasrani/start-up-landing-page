@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tech Ignite — Ship AI features 5x faster</title>
+
+    <meta name="theme-color" content="#0b5cff">
+
+    <!-- Bootstrap 5 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Load web font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Small custom styles -->
+    <style>
+        :root {
+            --bg-900: #04030b;
+            --bg-800: #0b0820;
+            --brand: #6c6cff;
+            --accent: #19e0d6;
+            --accent-2: #9b6cff;
+            --warm: #ff7a66;
+            --glass: rgba(255, 255, 255, 0.06);
+            --card-glow: 0 20px 50px rgba(108, 108, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --radius: 14px;
+            --max-w: 1150px;
+        }
+
+        /* Reset & base */
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(155, 108, 255, 0.07), transparent 8%),
+                radial-gradient(900px 500px at 90% 90%, rgba(25, 224, 214, 0.04), transparent 10%),
+                linear-gradient(180deg, var(--bg-900) 0%, #070419 30%, var(--bg-800) 100%);
+            color: #e6eef8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit
+        }
+
+        .container {
+            max-width: var(--max-w)
+        }
+
+        /* NAVBAR */
+        .navbar {
+            backdrop-filter: blur(12px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-bottom: 1px solid var(--glass-border)
+        }
+
+        .navbar .brand {
+            font-weight: 800;
+            color: var(--brand);
+            letter-spacing: -0.6px;
+            font-size: 1.05rem
+        }
+
+        .nav-link {
+            color: rgba(230, 238, 248, 0.85)
+        }
+
+        .nav-link:hover {
+            color: var(--accent)
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #dbe9ff
+        }
+
+        /* HERO */
+        .hero {
+            padding: 6.5rem 0 5rem 0;
+            position: relative;
+            z-index: 1
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 540px;
+            gap: 2.5rem;
+            align-items: center
+        }
+
+        .hero .kicker {
+            display: inline-block;
+            padding: .35rem .65rem;
+            background: linear-gradient(90deg, var(--accent-2), var(--accent));
+            color: #030015;
+            border-radius: 999px;
+            font-weight: 700
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            line-height: 1.02;
+            margin-top: .35rem;
+            font-weight: 800
+        }
+
+        .hero p.lead {
+            color: rgba(230, 238, 248, 0.8);
+            margin-top: .6rem;
+            font-size: 1.05rem
+        }
+
+        /* CTA & mock */
+        .btn-cta {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            background: linear-gradient(90deg, var(--brand), var(--accent));
+            border: none;
+            color: #04021a;
+            font-weight: 700;
+            padding: .9rem 1.1rem;
+            border-radius: 12px;
+            box-shadow: var(--card-glow)
+        }
+
+        .btn-cta-outline {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: transparent;
+            color: #dfefff;
+            padding: .85rem 1rem;
+            border-radius: 12px
+        }
+
+        .mock-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        .mock-card {
+            width: 520px;
+            height: 320px;
+            border-radius: 18px;
+            padding: 1rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 40px 80px rgba(12, 10, 35, 0.6), 0 12px 30px rgba(108, 108, 255, 0.06) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform .8s cubic-bezier(.2, .9, .3, .95);
+            backdrop-filter: blur(8px)
+        }
+
+        .mock-card::before {
+            content: '';
+            position: absolute;
+            inset: auto -60px -60px auto;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle at 30% 30%, rgba(108, 108, 255, 0.14), transparent 35%);
+            filter: blur(60px)
+        }
+
+        .mock-card .screen {
+            width: 92%;
+            height: 80%;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #07102b, #09122f);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 6px 30px rgba(24, 18, 72, 0.6) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(200, 220, 255, 0.7)
+        }
+
+        .mock-card.glow {
+            box-shadow: 0 40px 90px rgba(108, 108, 255, 0.14), 0 6px 30px rgba(25, 224, 214, 0.06) inset;
+            transform: translateY(-6px)
+        }
+
+        .mock-anim {
+            animation: floaty 6s ease-in-out infinite
+        }
+
+        @keyframes floaty {
+            0% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-12px)
+            }
+
+            100% {
+                transform: translateY(0)
+            }
+        }
+
+        /* rest of styles (trusted, glass, tabs, steps, screenshots, pricing, code, integrations, faq, cta, footer) */
+        .trusted-logos {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 1.2rem
+        }
+
+        .trusted-logos .logo {
+            width: 96px;
+            height: 36px;
+            display: inline-grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            font-weight: 600
+        }
+
+        .glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px)
+        }
+
+        .nav-pills .nav-link {
+            background: transparent;
+            border-radius: 10px;
+            color: rgba(230, 238, 248, 0.85)
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(90deg, rgba(108, 108, 255, 0.12), rgba(25, 224, 214, 0.06));
+            color: #fff
+        }
+
+        .feature-screenshot {
+            border-radius: 12px;
+            padding: 1rem;
+            background: linear-gradient(180deg, #071224, #071630);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 60px rgba(12, 10, 35, 0.5) inset
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem
+        }
+
+        .step-card {
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
+            transition: transform .18s ease
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px)
+        }
+
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: inline-grid;
+            place-items: center;
+            background: linear-gradient(90deg, var(--brand), var(--accent));
+            color: #020018;
+            font-weight: 800
+        }
+
+        .main-shot {
+            height: 420px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: linear-gradient(180deg, #061229, #071335);
+            box-shadow: 0 30px 90px rgba(6, 8, 25, 0.8) inset
+        }
+
+        .thumbs {
+            display: flex;
+            gap: .6rem;
+            margin-top: .9rem
+        }
+
+        .thumb {
+            width: 86px;
+            height: 56px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: linear-gradient(180deg, #061229, #071335)
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem
+        }
+
+        .plan {
+            padding: 1.1rem;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.04)
+        }
+
+        .plan.popular {
+            transform: translateY(-8px);
+            box-shadow: 0 36px 80px rgba(108, 108, 255, 0.12);
+            border: 1px solid rgba(155, 108, 255, 0.22)
+        }
+
+        .badge-pop {
+            background: linear-gradient(90deg, var(--brand), var(--accent));
+            color: #030018;
+            padding: .45rem .8rem;
+            border-radius: 999px;
+            font-weight: 800
+        }
+
+        .code-panel {
+            background: linear-gradient(180deg, #03102a, #04132e);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(108, 108, 255, 0.06);
+            color: #bfeef2;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace
+        }
+
+        .copy-btn {
+            position: relative
+        }
+
+        .copied {
+            position: absolute;
+            right: 110%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #061226;
+            color: #bfeef2;
+            padding: .35rem .6rem;
+            border-radius: 6px;
+            font-size: .82rem;
+            opacity: 0;
+            transition: all .18s ease
+        }
+
+        .copied.show {
+            opacity: 1;
+            transform: translateY(-50%) translateX(-6px)
+        }
+
+        .integrations {
+            display: flex;
+            gap: .6rem;
+            flex-wrap: wrap
+        }
+
+        .integration {
+            padding: .6rem 1rem;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            color: #dbeeff
+        }
+
+        .accordion-button {
+            background: transparent;
+            color: #dbeeff
+        }
+
+        .accordion-item {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .final-cta {
+            padding: 3.5rem 0;
+            text-align: center;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(155, 108, 255, 0.08), rgba(25, 224, 214, 0.04));
+            margin-top: 1.5rem
+        }
+
+        footer {
+            padding: 2.25rem 0;
+            color: rgba(230, 238, 248, 0.75);
+            border-top: 1px solid rgba(255, 255, 255, 0.02)
+        }
+
+        @media(max-width:991px) {
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+
+            .mock-card {
+                width: 100%;
+                height: 300px
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .mock-anim,
+            .mock-card {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+
+        /* Override muted/gray text to white for stronger contrast */
+        .text-muted {
+            color: rgba(255, 255, 255, 0.88) !important;
+        }
+
+        .text-muted a {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        small.text-muted,
+        .small.text-muted {
+            color: rgba(255, 255, 255, 0.78) !important;
+        }
+
+        /* Mini-dashboard styles inside mock screen */
+        .dash {
+            width: 100%;
+            color: #dffaf6;
+            font-size: 0.95rem
+        }
+
+        .dash .dash-row {
+            width: 100%
+        }
+
+        .dash .stat {
+            min-width: 0
+        }
+
+        .dash .label {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .dash .value {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #ffffff;
+            letter-spacing: -0.2px
+        }
+
+        .sparkline {
+            width: 100%;
+            height: 46px;
+            display: block;
+            margin-top: 6px
+        }
+
+        .bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 999px;
+            overflow: hidden
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7ce6df, #6c6cff);
+            box-shadow: 0 8px 20px rgba(108, 108, 255, 0.08);
+            border-radius: 999px;
+            transition: width .6s cubic-bezier(.2, .9, .3, .95)
+        }
+
+        /* Adjust small elements for mobile */
+        @media (max-width: 480px) {
+            .dash .value {
+                font-size: .95rem
+            }
+
+            .sparkline {
+                height: 36px
+            }
+        }
+
+        /* Feature screenshot chart styles */
+        .shot-inner {
+            height: 100%;
+            display: flex;
+            flex-direction: column
+        }
+
+        .shot-header strong {
+            font-size: 1rem;
+            color: #fff
+        }
+
+        .big-chart {
+            height: 100%;
+            max-height: 260px
+        }
+
+        #line1 {
+            stroke-linejoin: round;
+            stroke-linecap: round
+        }
+
+        #line2 {
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            opacity: .85
+        }
+
+        .btn-ghost.active {
+            box-shadow: 0 8px 30px rgba(108, 108, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02)
+        }
+
+        /* Mobile responsiveness tweaks */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem
+            }
+
+            .hero {
+                padding-top: 3.5rem;
+                padding-bottom: 2.5rem
+            }
+
+            .hero h1 {
+                font-size: 1.6rem
+            }
+
+            .hero p.lead {
+                font-size: 0.95rem
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem
+            }
+
+            .mock-card {
+                width: 100%;
+                height: 220px;
+                border-radius: 12px;
+                padding: .6rem
+            }
+
+            .mock-card .screen {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                padding: .5rem
+            }
+
+            .trusted-logos .logo {
+                width: 72px;
+                height: 28px;
+                font-size: .82rem
+            }
+
+            .btn-cta,
+            .btn-cta-outline,
+            .btn-ghost {
+                width: 100%;
+                justify-content: center
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr
+            }
+
+            .shot-inner {
+                padding: .6rem
+            }
+
+            .big-chart {
+                max-height: 160px
+            }
+
+            .sparkline {
+                height: 28px
+            }
+
+            .dash .value {
+                font-size: .95rem
+            }
+
+            .shot-header {
+                gap: .5rem
+            }
+
+            .btn-group .btn {
+                padding: .35rem .55rem;
+                font-size: .78rem
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.25rem
+            }
+
+            .kicker {
+                padding: .25rem .5rem;
+                font-size: .78rem
+            }
+
+            .mock-card {
+                height: 200px
+            }
+
+            .main-shot {
+                height: 300px
+            }
+
+            .big-chart {
+                max-height: 140px
+            }
+
+            .trusted-logos {
+                gap: .5rem
+            }
+
+            .trusted-logos .logo {
+                width: 60px;
+                height: 26px;
+                font-size: .75rem
+            }
+
+            .btn-cta,
+            .btn-cta-outline {
+                padding: .7rem 0.8rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand brand mb-0" href="#">Tech Ignite</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navCollapse">
+                    <ul class="navbar-nav ms-auto me-3 align-items-center">
+                        <li class="nav-item"><a class="nav-link" href="#product">Product</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#docs">Docs</a></li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        <a class="me-3 text-muted small" href="#">Log in</a>
+                        <a class="btn btn-cta" href="#pricing">Start Free</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <main>
+        <section id="product" class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div style="z-index:2">
+                        <div class="kicker">Now in public beta</div>
+                        <h1>AI infrastructure for modern teams.</h1>
+                        <p class="lead">Build, deploy, and monitor intelligent features with developer-friendly SDKs and
+                            production-grade observability.</p>
+
+                        <div class="d-flex gap-3 align-items-center mt-4">
+                            <a class="btn btn-cta" href="#pricing">Start Free</a>
+                            <a class="btn btn-cta-outline" href="#demo">Book a demo</a>
+                        </div>
+
+                        <div class="trusted-logos">
+                            <div class="logo">NovaLabs</div>
+                            <div class="logo">DataLoop</div>
+                            <div class="logo">Quanta</div>
+                            <div class="logo">FluxAI</div>
+                            <div class="logo">Aperture</div>
+                        </div>
+                    </div>
+
+                    <div class="mock-wrap">
+                        <div class="mock-card mock-anim glow">
+                            <div class="screen">
+                                <div class="dash" role="region" aria-label="Live dashboard preview">
+                                    <div class="dash-row d-flex justify-content-between align-items-center">
+                                        <div class="stat">
+                                            <div class="label">Requests / min</div>
+                                            <div class="value" id="rpm">—</div>
+                                        </div>
+
+                                        <div class="stat text-end">
+                                            <div class="label">Latency (ms)</div>
+                                            <div class="value" id="latency">—</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="dash-row mt-2">
+                                        <svg id="spark" viewBox="0 0 100 30" preserveAspectRatio="none"
+                                            class="sparkline" role="img" aria-label="Traffic sparkline">
+                                            <polyline fill="none" stroke="#7ce6df" stroke-width="1.8" points="" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="dash-row mt-2 d-flex align-items-center">
+                                        <div class="bar flex-fill" aria-hidden="true">
+                                            <div id="fill" class="bar-fill" style="width:48%"></div>
+                                        </div>
+                                        <div class="bar-label small text-muted ms-2" id="barLabel">Model throughput
+                                            <strong id="barPct">48%</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES & TABS -->
+        <section id="features" class="py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="glass tabs-panel">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation"><button class="nav-link active" id="pills-a"
+                                        data-bs-toggle="pill" data-bs-target="#pane-a" type="button">Automated
+                                        Workflows</button></li>
+                                <li class="nav-item" role="presentation"><button class="nav-link" id="pills-b"
+                                        data-bs-toggle="pill" data-bs-target="#pane-b" type="button">Real-time
+                                        Analytics</button></li>
+                                <li class="nav-item" role="presentation"><button class="nav-link" id="pills-c"
+                                        data-bs-toggle="pill" data-bs-target="#pane-c" type="button">Team
+                                        Collaboration</button></li>
+                            </ul>
+
+                            <div class="tab-content text-muted">
+                                <div class="tab-pane fade show active" id="pane-a">Build event-driven pipelines,
+                                    retries, and prebuilt connectors.</div>
+                                <div class="tab-pane fade" id="pane-b">Live dashboards to track latency, accuracy, and
+                                    model drift.</div>
+                                <div class="tab-pane fade" id="pane-c">Role-based access, annotations, and shareable
+                                    deployment snapshots.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="feature-screenshot glass p-3">
+                            <div class="main-shot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="py-5">
+            <div class="container">
+                <h3 class="fw-bold mb-3">How it works</h3>
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="step-icon">1</div>
+                            <div>
+                                <h5 class="mb-1">Connect sources</h5>
+                                <p class="mb-0 text-muted">Secure connectors for databases, storage, and streaming
+                                    services.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="step-icon">2</div>
+                            <div>
+                                <h5 class="mb-1">Compose flows</h5>
+                                <p class="mb-0 text-muted">Visual composer for models, preprocessing, and rules.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="step-icon">3</div>
+                            <div>
+                                <h5 class="mb-1">Deploy & monitor</h5>
+                                <p class="mb-0 text-muted">One-click deploy, live metrics, and alerts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREENSHOTS -->
+        <section class="py-5">
+            <div class="container">
+                <h3 class="fw-bold text-center mb-4">See it in action</h3>
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="main-shot glass mx-auto" style="height:420px;">
+                            <div class="shot-inner p-3 d-flex flex-column h-100">
+                                <div class="shot-header d-flex justify-content-between align-items-center mb-2">
+                                    <div>
+                                        <strong>Live Overview</strong>
+                                        <div class="small text-muted">Realtime metrics & trends</div>
+                                    </div>
+
+                                    <div class="btn-group btn-group-sm" role="tablist" aria-label="Chart views">
+                                        <button class="btn btn-sm btn-ghost active"
+                                            data-view="overview">Overview</button>
+                                        <button class="btn btn-sm btn-ghost" data-view="latency">Latency</button>
+                                        <button class="btn btn-sm btn-ghost" data-view="errors">Errors</button>
+                                    </div>
+                                </div>
+
+                                <div class="flex-fill d-flex align-items-center justify-content-center">
+                                    <svg id="bigChart" viewBox="0 0 300 140" preserveAspectRatio="none"
+                                        class="big-chart w-100" role="img" aria-label="Traffic chart">
+                                        <polyline id="line1" fill="none" stroke="#7ce6df" stroke-width="2" points="" />
+                                        <polyline id="line2" fill="none" stroke="#6c6cff" stroke-width="2" points="" />
+                                    </svg>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div class="small text-muted">Now</div>
+                                    <div class="small text-muted">Last 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thumbs justify-content-center d-flex mt-3">
+                            <div class="thumb"></div>
+                            <div class="thumb"></div>
+                            <div class="thumb"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section id="pricing" class="py-5">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h3 class="fw-bold">Simple, transparent pricing</h3>
+                        <p class="text-muted mb-0">Choose a plan that scales with your team.</p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <small class="text-muted">Monthly</small>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="billingToggle">
+                        </div>
+                        <small class="text-muted">Yearly <span class="text-success small">save 2 months</span></small>
+                    </div>
+                </div>
+
+                <div class="pricing-grid">
+                    <div class="plan">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="mb-1">Starter</h5>
+                                <small class="text-muted">For small teams</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="price" data-month="19" data-year="190">$19 <small
+                                        class="text-muted">/mo</small></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul class="text-muted small">
+                            <li>Up to 50k requests / month</li>
+                            <li>Basic analytics</li>
+                            <li>Email support</li>
+                        </ul>
+                        <a class="btn btn-cta-outline w-100" href="#">Start free trial</a>
+                    </div>
+
+                    <div class="plan popular">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="badge-pop">Most Popular</div>
+                            <div class="text-end">
+                                <div class="price" data-month="49" data-year="490">$49 <small
+                                        class="text-muted">/mo</small></div>
+                            </div>
+                        </div>
+                        <h5 class="mt-3">Growth</h5>
+                        <small class="text-muted">Reliable for growing teams</small>
+                        <hr>
+                        <ul class="text-muted small">
+                            <li>Up to 500k requests / month</li>
+                            <li>Real-time analytics & alerts</li>
+                            <li>Priority support</li>
+                        </ul>
+                        <a class="btn btn-cta w-100" href="#">Start free trial</a>
+                    </div>
+
+                    <div class="plan">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="mb-1">Enterprise</h5>
+                                <small class="text-muted">Advanced controls & SLAs</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="price" data-month="99" data-year="990">$99 <small
+                                        class="text-muted">/mo</small></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul class="text-muted small">
+                            <li>Unlimited requests</li>
+                            <li>Dedicated support & onboarding</li>
+                            <li>Custom SLAs</li>
+                        </ul>
+                        <a class="btn btn-ghost w-100" href="#">Contact sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API PREVIEW -->
+        <section id="docs" class="py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h3 class="fw-bold">Built for developers</h3>
+                        <p class="text-muted">SDKs, REST API, and webhooks make integration fast.</p>
+                        <ul class="text-muted">
+                            <li>Official SDKs for Python, Node, Go</li>
+                            <li>Quickstart templates</li>
+                            <li>Webhooks & retry semantics</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="code-panel position-relative">
+                            <div class="d-flex justify-content-end mb-2">
+                                <div class="copy-btn">
+                                    <button id="copyCode" class="btn btn-sm btn-ghost">Copy</button>
+                                    <span id="copiedBubble" class="copied">Copied!</span>
+                                </div>
+                            </div>
+
+                            <pre id="apiCode" style="margin:0; white-space:pre-wrap;">curl -X POST "https://api.techignite.example/v1/deploy" \
+            -H "Authorization: Bearer $TIGER_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name":"feature-toggle","image":"registry.example/ai-service:latest"}'
+
+        # Response
+        {"id":"deploy_01F...","status":"queued","created_at":"2025-08-01T12:02:09Z"}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTEGRATIONS & SECURITY -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <h5 class="fw-bold">Integrations</h5>
+                        <div class="integrations mt-3">
+                            <div class="integration">Slack</div>
+                            <div class="integration">Zapier</div>
+                            <div class="integration">Notion</div>
+                            <div class="integration">S3</div>
+                            <div class="integration">GCP</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h5 class="fw-bold">Security</h5>
+                        <div class="d-flex gap-2 mt-3">
+                            <div class="glass p-3 text-muted" style="border-radius:10px">Data encrypted in transit & at
+                                rest</div>
+                            <div class="glass p-3 text-muted" style="border-radius:10px">RBAC & SSO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="py-5">
+            <div class="container">
+                <h3 class="fw-bold text-center mb-4">Frequently asked questions</h3>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1"><button class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faqOne">Do I need a credit card?</button>
+                        </h2>
+                        <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">No — start your free trial without a credit card.</div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2"><button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faqTwo">Can I cancel anytime?</button></h2>
+                        <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Yes — cancel from account settings.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="fw-bold">Ready to build with confidence?</h2>
+                <p class="text-muted">Ship AI features faster with production-ready controls and observability.</p>
+                <a class="btn btn-cta mt-3" href="#signup">Get started — it's free</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <div class="brand">Tech Ignite</div>
+                <div class="small text-muted">© 2025 Tech Ignite</div>
+            </div>
+
+            <div class="d-flex gap-3 align-items-center">
+                <a class="text-muted" href="#">Twitter</a>
+                <a class="text-muted" href="#">GitHub</a>
+                <a class="text-muted" href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Pricing toggle
+        (function () {
+            const toggle = document.getElementById('billingToggle');
+            const prices = document.querySelectorAll('.price');
+            function updatePrices(yearly) {
+                prices.forEach(el => {
+                    const m = el.getAttribute('data-month');
+                    const y = el.getAttribute('data-year');
+                    if (yearly) el.innerHTML = '$' + y + ' <small class="text-muted">/yr</small>'; else el.innerHTML = '$' + m + ' <small class="text-muted">/mo</small>';
+                });
+            }
+            updatePrices(false);
+            toggle.addEventListener('change', e => updatePrices(e.target.checked));
+        })();
+
+        // Copy to clipboard with ARIA feedback
+        (function () {
+            const copyBtn = document.getElementById('copyCode');
+            const codeEl = document.getElementById('apiCode');
+            const bubble = document.getElementById('copiedBubble');
+            if (!copyBtn || !codeEl) return;
+            copyBtn.addEventListener('click', async () => {
+                const text = codeEl.innerText;
+                try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(text);
+                    else {
+                        const range = document.createRange(); range.selectNodeContents(codeEl);
+                        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+                        document.execCommand('copy'); sel.removeAllRanges();
+                    }
+                    bubble.classList.add('show'); setTimeout(() => bubble.classList.remove('show'), 1300);
+                } catch (e) { alert('Copy failed — select and copy manually.'); }
+            });
+        })();
+
+        // Optional: small reveal for sections
+        (function () {
+            const items = document.querySelectorAll('section');
+            if (!items.length) return;
+            const io = new IntersectionObserver((entries, obs) => {
+                entries.forEach(en => { if (en.isIntersecting) { en.target.style.opacity = 1; en.target.style.transform = 'none'; obs.unobserve(en.target); } });
+            }, { threshold: 0.06 });
+            items.forEach(it => { it.style.opacity = 0; it.style.transform = 'translateY(12px)'; io.observe(it); });
+        })();
+
+        // Mini-dashboard simulation (RPM, latency, sparkline, throughput)
+        (function () {
+            const rpmEl = document.getElementById('rpm');
+            const latEl = document.getElementById('latency');
+            const spark = document.getElementById('spark')?.querySelector('polyline');
+            const fillEl = document.getElementById('fill');
+            const barPct = document.getElementById('barPct');
+
+            if (!rpmEl || !latEl || !spark || !fillEl) return;
+
+            const pts = [];
+            const maxPoints = 40;
+
+            function pushPoint(v) {
+                if (pts.length >= maxPoints) pts.shift();
+                pts.push(v);
+            }
+
+            function renderSpark() {
+                const w = 100; const h = 30;
+                if (!pts.length) return;
+                const step = w / Math.max(1, (pts.length - 1));
+                const max = Math.max(...pts, 1);
+                const min = Math.min(...pts, 0);
+                const range = Math.max(1, max - min);
+                const points = pts.map((v, i) => {
+                    const x = (i * step).toFixed(2);
+                    const y = (h - ((v - min) / range) * h).toFixed(2);
+                    return `${x},${y}`;
+                }).join(' ');
+                spark.setAttribute('points', points);
+            }
+
+            function fmt(n) { return new Intl.NumberFormat().format(Math.round(n)); }
+
+            function tick() {
+                // Simulate RPM base and jitter
+                const base = 800 + Math.random() * 1200; // 800-2000
+                const rpm = base + Math.sin(Date.now() / 1200) * 120;
+                const latency = 40 + Math.random() * 120; // ms
+                const throughput = Math.round(30 + (rpm / 2000) * 70 + (Math.random() * 6 - 3));
+
+                pushPoint(rpm);
+                renderSpark();
+
+                rpmEl.textContent = fmt(rpm);
+                latEl.textContent = Math.round(latency);
+                fillEl.style.width = Math.max(6, Math.min(100, throughput)) + '%';
+                barPct.textContent = Math.round(Math.max(6, Math.min(100, throughput))) + '%';
+            }
+
+            // Prime with some values
+            for (let i = 0; i < 10; i++) pushPoint(600 + Math.random() * 1400);
+            renderSpark();
+            tick();
+            setInterval(tick, 1200);
+        })();
+
+        // Feature-section big chart simulation (multi-view)
+        (function () {
+            const chart = document.getElementById('bigChart');
+            const l1 = document.getElementById('line1');
+            const l2 = document.getElementById('line2');
+            const buttons = document.querySelectorAll('.feature-screenshot .btn-group [data-view]');
+            if (!chart || !l1 || !l2) return;
+
+            const history = { overview: [], latency: [], errors: [] };
+            const max = 40;
+            function push(h, v) { if (h.length >= max) h.shift(); h.push(v); }
+
+            // generate base values
+            for (let i = 0; i < 20; i++) {
+                push(history.overview, 600 + Math.random() * 1400);
+                push(history.latency, 30 + Math.random() * 200);
+                push(history.errors, Math.random() * 6);
+            }
+
+            function render(h) {
+                const w = 300; const hgt = 140;
+                const step = w / Math.max(1, (h.length - 1));
+                const mx = Math.max(...h, 1);
+                const mn = Math.min(...h, 0);
+                const range = Math.max(1, mx - mn);
+                const pts = h.map((v, i) => `${(i * step).toFixed(2)},${(hgt - ((v - mn) / range) * hgt).toFixed(2)}`).join(' ');
+                return pts;
+            }
+
+            function tickChart() {
+                // push new sample values
+                push(history.overview, 600 + Math.random() * 1400 + Math.sin(Date.now() / 900) * 120);
+                push(history.latency, 20 + Math.random() * 300 + Math.abs(Math.sin(Date.now() / 600)) * 40);
+                push(history.errors, Math.max(0, Math.random() * 8 - (Math.random() > 0.92 ? 0 : 1)));
+
+                // default view
+                const view = document.querySelector('.feature-screenshot .btn-group .active')?.getAttribute('data-view') || 'overview';
+                if (view === 'overview') {
+                    l1.setAttribute('points', render(history.overview));
+                    l2.setAttribute('points', render(history.latency).replace(/(\d+\.\d+),(\d+\.\d+)/g, (m, x, y) => `${x},${Math.min(140, parseFloat(y) + 22).toFixed(2)}`));
+                } else if (view === 'latency') {
+                    l1.setAttribute('points', render(history.latency));
+                    l2.setAttribute('points', render(history.overview).replace(/(\d+\.\d+),(\d+\.\d+)/g, (m, x, y) => `${x},${Math.min(140, parseFloat(y) + 30).toFixed(2)}`));
+                } else {
+                    l1.setAttribute('points', render(history.errors));
+                    l2.setAttribute('points', render(history.overview).replace(/(\d+\.\d+),(\d+\.\d+)/g, (m, x, y) => `${x},${Math.min(140, parseFloat(y) + 18).toFixed(2)}`));
+                }
+            }
+
+            // wire buttons
+            buttons.forEach(b => b.addEventListener('click', (e) => {
+                buttons.forEach(x => x.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                tickChart();
+            }));
+
+            tickChart();
+            setInterval(tickChart, 1400);
+        })();
+    </script>
+</body>
+
+</html>
